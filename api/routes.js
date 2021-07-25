@@ -48,11 +48,74 @@ module.exports = async function ({app}) {
     const friendAmount = req.body.friendAmount
     const settleDate = req.body.settleDate
 
-    console.log(settleDate, witness, friendBet)
-
     res.send({
       betSubmitMessage: "success",
     })
 
+  })
+
+  app.post("/friends", (req, res) => {
+    const username = req.body.username;
+
+    res.send({
+      myFriends: [
+        { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
+        { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" },
+      ],
+      pendingFriends: [
+        { firstName: "Joe", lastName: "Smith", username: "joesmith" },
+        { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+      ],
+      allUsers: [
+        { firstName: "Joe", lastName: "Smith", username: "joesmith" },
+        { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+        { firstName: "John", lastName: "Doe", username: "johndoe"},
+      ],
+    })
+  })
+
+  app.post("/pendingStatus", (req, res) => {
+    const username = req.body.username;
+    const friendUsername = req.body.friendUsername;
+    const status = req.body.status;
+
+    const myFriends = [
+      { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
+      { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" },
+    ]
+
+    const pendingFriends = [
+      { firstName: "Joe", lastName: "Smith", username: "joesmith" },
+      { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+    ]
+
+    if (status === "accept") {
+      res.send({
+        myFriends: [...myFriends, pendingFriends.find((friend) => friend.username === friendUsername)],
+        pendingFriends: pendingFriends.filter(friend => friend.username !== friendUsername),
+      })
+    } else if (status === "decline") {
+      res.send({
+        myFriends: myFriends,
+        pendingFriends: pendingFriends.filter(friend => friend.username !== friendUsername),
+      })
+    } else {
+      res.send({ errorMessage: "Error" })
+    }
+  })
+
+  app.post("/sendRequest", (req, res) => {
+    const username = req.body.username;
+    const friend = req.body.friend;
+
+    const allUsers = [
+      { firstName: "Joe", lastName: "Smith", username: "joesmith" },
+      { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+      { firstName: "John", lastName: "Doe", username: "johndoe"},
+    ]
+
+    res.send({
+      allUsers: allUsers.filter(user => user.username !== friend.username)
+    })
   })
 }
