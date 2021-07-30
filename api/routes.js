@@ -59,17 +59,17 @@ module.exports = async function ({app}) {
 
     res.send({
       myFriends: [
-        { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-        { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" },
+        {firstName: "Nate", lastName: "Kirschner", username: "natekirschner"},
+        {firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal"},
       ],
       pendingFriends: [
-        { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+        {firstName: "Joe", lastName: "Smith", username: "joesmith"},
+        {firstName: "Jane", lastName: "Doe", username: "janedoe"},
       ],
       allUsers: [
-        { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        { firstName: "John", lastName: "Doe", username: "johndoe"},
+        {firstName: "Joe", lastName: "Smith", username: "joesmith"},
+        {firstName: "Jane", lastName: "Doe", username: "janedoe"},
+        {firstName: "John", lastName: "Doe", username: "johndoe"},
       ],
     })
   })
@@ -80,27 +80,30 @@ module.exports = async function ({app}) {
     const status = req.body.status;
 
     const myFriends = [
-      { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-      { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" },
+      {firstName: "Nate", lastName: "Kirschner", username: "natekirschner"},
+      {firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal"},
     ]
 
     const pendingFriends = [
-      { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-      { firstName: "Jane", lastName: "Doe", username: "janedoe" },
+      {firstName: "Joe", lastName: "Smith", username: "joesmith"},
+      {firstName: "Jane", lastName: "Doe", username: "janedoe"},
     ]
 
     if (status === "accept") {
       res.send({
-        myFriends: [...myFriends, pendingFriends.find((friend) => friend.username === friendUsername)],
-        pendingFriends: pendingFriends.filter(friend => friend.username !== friendUsername),
+        myFriends: [...myFriends,
+          pendingFriends.find((friend) => friend.username === friendUsername)],
+        pendingFriends: pendingFriends.filter(
+            friend => friend.username !== friendUsername),
       })
     } else if (status === "decline") {
       res.send({
         myFriends: myFriends,
-        pendingFriends: pendingFriends.filter(friend => friend.username !== friendUsername),
+        pendingFriends: pendingFriends.filter(
+            friend => friend.username !== friendUsername),
       })
     } else {
-      res.send({ errorMessage: "Error" })
+      res.send({errorMessage: "Error"})
     }
   })
 
@@ -109,9 +112,9 @@ module.exports = async function ({app}) {
     const friend = req.body.friend;
 
     const allUsers = [
-      { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-      { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-      { firstName: "John", lastName: "Doe", username: "johndoe"},
+      {firstName: "Joe", lastName: "Smith", username: "joesmith"},
+      {firstName: "Jane", lastName: "Doe", username: "janedoe"},
+      {firstName: "John", lastName: "Doe", username: "johndoe"},
     ]
 
     res.send({
@@ -119,154 +122,11 @@ module.exports = async function ({app}) {
     })
   })
 
-  app.post("/myBets", (req, res) => {
-    const username = req.body.username;
+  app.post("/searchTitle", (req, res) => {
+    const title = req.body.title;
 
-    const currentBets = [
-      {title: "Bet1",
-        terms: "These are terms",
-        betFriend: { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        amount: 5,
-        friendAmount: 5,
-        witness: [],
-        settleDate: "07/31/2020",
-        betId: 1
-      },
-      {title: "Bet2",
-        terms: "These are terms 2",
-        betFriend: { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        amount: 15,
-        friendAmount: 10,
-        witness: [
-          { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-          { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" }
-        ],
-        settleDate: "08/31/2020",
-        betId: 2
-      }
-    ]
-
-    const pastBets = [
-      {title: "Bet past1",
-        terms: "These are terms",
-        betFriend: { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        amount: 533,
-        friendAmount: 533,
-        witness: [],
-        settleDate: "07/31/2020",
-        betId: 5
-      },
-      {title: "bet past2",
-        terms: "These are terms 2",
-        betFriend: { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        amount: 1533,
-        friendAmount: 1033,
-        witness: [
-          { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-          { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" }
-        ],
-        settleDate: "08/3/2020",
-        betId: 4
-      }
-    ]
-
-    const betRequests = [
-      {title: "Bet request 1",
-        terms: "These are terms",
-        betFriend: { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        amount: 544,
-        friendAmount: 544,
-        witness: [],
-        settleDate: "07/31/2020",
-        betId: 10
-      },
-      {title: "Bet request 2",
-        terms: "These are terms 2",
-        betFriend: { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        amount: 15,
-        friendAmount: 10,
-        witness: [
-          { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-          { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" }
-        ],
-        settleDate: "08/31/2020",
-        betId: 11
-      }
-    ]
-
-    res.send(
-        {
-          currentBets,
-          pastBets,
-          betRequests
-        }
-    )
+    res.send({
+      titlesList: [{title: "title 1", year: 2020}, {title: "title2", year: 1990}]
+    })
   })
-
-  app.post("/handleBetRequest", (req, res) => {
-    const username = req.body.username
-    const betId = req.body.betId
-    const status = req.body.status
-
-    const currentBets = [
-      {title: "Bet1",
-        terms: "These are terms",
-        betFriend: { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        amount: 5,
-        friendAmount: 5,
-        witness: [],
-        settleDate: "07/31/2020",
-        betId: 1
-      },
-      {title: "Bet2",
-        terms: "These are terms 2",
-        betFriend: { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        amount: 15,
-        friendAmount: 10,
-        witness: [
-          { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-          { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" }
-        ],
-        settleDate: "08/31/2020",
-        betId: 2
-      }
-    ]
-
-    const betRequests = [
-      {title: "Bet request 1",
-        terms: "These are terms",
-        betFriend: { firstName: "Joe", lastName: "Smith", username: "joesmith" },
-        amount: 544,
-        friendAmount: 544,
-        witness: [],
-        settleDate: "07/31/2020",
-        betId: 10
-      },
-      {title: "Bet request 2",
-        terms: "These are terms 2",
-        betFriend: { firstName: "Jane", lastName: "Doe", username: "janedoe" },
-        amount: 15,
-        friendAmount: 10,
-        witness: [
-          { firstName: "Nate", lastName: "Kirschner", username: "natekirschner" },
-          { firstName: "Rishi", lastName: "Agarwal", username: "rishiagarwal" }
-        ],
-        settleDate: "08/31/2020",
-        betId: 11
-      }
-    ]
-
-    if(status === "accept") {
-      res.send({
-        currentBets: [...currentBets, betRequests.find((bet) => bet.betId === betId)],
-        betRequests: betRequests.filter((bet) => bet.betId !== betId)
-      })
-    } else {
-      res.send({
-        currentBets,
-        betRequests: betRequests.filter((bet) => bet.betId !== betId)
-      })
-    }
-  })
-
 }
