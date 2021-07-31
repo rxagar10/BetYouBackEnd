@@ -30,7 +30,7 @@ module.exports = async function ({app}) {
     })
   })
 
-  app.post("/createBet", (req, res) => {
+  app.post("/createRec", (req, res) => {
     const username = req.body.username;
 
     res.send({
@@ -38,7 +38,7 @@ module.exports = async function ({app}) {
     })
   })
 
-  app.post("/submitBet", (req, res) => {
+  app.post("/submitRec", (req, res) => {
     const username = req.body.username;
     const friendBet = req.body.friendBet
     const witness = req.body.witness
@@ -49,7 +49,7 @@ module.exports = async function ({app}) {
     const settleDate = req.body.settleDate
 
     res.send({
-      betSubmitMessage: "success",
+      message: "success",
     })
 
   })
@@ -126,7 +126,9 @@ module.exports = async function ({app}) {
     const title = req.body.title;
 
     res.send({
-      titlesList: [{title: "title 1", year: 2020}, {title: "title2", year: 1990}]
+      titlesList: [
+          {title: "title 1", year: 2020, overview: "awdioajwdoaijwdoa", runtime: 94},
+          {title: "title2", year: 1990, overview: "hi", runtime: 10200}]
     })
   })
 }
