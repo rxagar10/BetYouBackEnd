@@ -131,4 +131,26 @@ module.exports = async function ({app}) {
           {title: "title2", year: 1990, overview: "hi", runtime: 10200}]
     })
   })
+
+  app.post("/home", (req, res) => {
+    const username = req.body.username;
+
+    res.send({
+      recsFeed: [
+        { title: "Title 1", from: "Nate", year: "2020", runtime: null, comments: "Great Movie"},
+        { title: "Title 2", from: "Rishi", year: null, runtime: "120", comments: "Terrible Movie"},
+      ]
+    })
+  })
+
+  app.post("/myRecs", (req, res) => {
+    const username = req.body.username;
+
+    res.send({
+      myRecs: [
+        { title: "Title 1", to: "Nate", year: "2020", runtime: null, comments: "Great Movie"},
+        { title: "Title 2", to: "Rishi", year: null, runtime: "120", comments: "Terrible Movie"},
+      ]
+    })
+  })
 }
