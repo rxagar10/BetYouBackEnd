@@ -1,3 +1,6 @@
+const searchTitle = require("../services/searchTitle");
+const getRecInfo = require("../services/getRecInfo");
+
 module.exports = async function ({app}) {
   app.post("/signup", (req, res) => {
     const username = req.body.username;
@@ -124,11 +127,10 @@ module.exports = async function ({app}) {
 
   app.post("/searchTitle", (req, res) => {
     const title = req.body.title;
+    const recType = req.body.recType;
 
-    res.send({
-      titlesList: [
-          {title: "title 1", year: 2020, overview: "awdioajwdoaijwdoa", runtime: 94},
-          {title: "title2", year: 1990, overview: "hi", runtime: 10200}]
+    searchTitle({ title: title, recType: recType }, (movieResp) => {
+      res.send({ titlesList: movieResp});
     })
   })
 
@@ -141,6 +143,18 @@ module.exports = async function ({app}) {
         { title: "Title 2", from: "Rishi", year: null, runtime: "120", comments: "Terrible Movie"},
       ]
     })
+  })
+
+  app.post("/getFromId", (req, res) => {
+    const id = req.body.id;
+    const recType = req.body.recType;
+
+    getRecInfo({ id: id, recType: recType}, (infoResp) => {
+      res.send({
+        titleInfo: infoResp,
+      })
+    })
+
   })
 
   app.post("/myRecs", (req, res) => {
