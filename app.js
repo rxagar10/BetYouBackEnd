@@ -3,8 +3,17 @@ const config = require("./config");
 const cors = require('cors');
 const path = require('path');
 const api = require("./api/routes");
+const mysql = require("mysql");
 
 async function startServer() {
+
+  const db = mysql.createPool({
+    host: config.mysql.host,
+    port: config.mysql.port,
+    password: config.mysql.password,
+    user: config.mysql.user,
+    database: config.mysql.database,
+  })
 
   const app = express();
 
@@ -24,7 +33,7 @@ async function startServer() {
     res.sendFile(path.join(__dirname, config.buildHtml))
   })
 
-  await api({ app });
+  await api({ app, db });
 
 }
 
