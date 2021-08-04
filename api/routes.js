@@ -1,14 +1,20 @@
 const searchTitle = require("../services/searchTitle");
 const getRecInfo = require("../services/getRecInfo");
+const signUpService = require("../services/signUp");
+const loginService = require("../services/login");
 
-module.exports = async function ({app}) {
+module.exports = async function ({ app, db }) {
   app.post("/signup", (req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
 
-    res.send({
-      signupMessage: "success",
+    const params = { firstName, lastName, username, email, password };
+
+    signUpService(db, params, (resp) => {
+      res.send(resp)
     })
   })
 
@@ -16,8 +22,8 @@ module.exports = async function ({app}) {
     const username = req.body.username;
     const password = req.body.password;
 
-    res.send({
-      loginMessage: "success",
+    loginService(db, { username, password }, (resp) => {
+      res.send(resp);
     })
   })
 
