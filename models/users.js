@@ -32,8 +32,19 @@ function verifyUser(db, { username, password }, callback) {
   )
 }
 
+function getAllUsers(db, callback) {
+  db.query(
+      "SELECT * FROM users",
+      (err, result) => {
+        if (err) throw err;
+        callback(result);
+      }
+  )
+}
+
 module.exports = {
   checkUserDNE,
   addNewUser,
   verifyUser,
+  getAllUsers,
 }
