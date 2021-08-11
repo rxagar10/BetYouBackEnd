@@ -3,6 +3,7 @@ const getRecInfo = require("../services/getRecInfo");
 const signUpService = require("../services/signUp");
 const loginService = require("../services/login");
 const friendsService = require("../services/friends")
+const recsService = require("../services/recs");
 
 module.exports = async function ({ app, db }) {
   app.post("/signup", (req, res) => {
@@ -43,23 +44,20 @@ module.exports = async function ({ app, db }) {
   app.post("/createRec", (req, res) => {
     const username = req.body.username;
 
-    res.send({
-      myFriends: ["Rishi", "Nate", "BetYou"]
+    friendsService.getFriendsPage(db, { username }, (friendsResp) => {
+      res.send({
+        myFriends: friendsResp.myFriends,
+      })
     })
+
   })
 
   app.post("/submitRec", (req, res) => {
-    const username = req.body.username;
-    const friendBet = req.body.friendBet
-    const witness = req.body.witness
-    const betTitle = req.body.betTitle
-    const terms = req.body.terms
-    const amount = req.body.amount
-    const friendAmount = req.body.friendAmount
-    const settleDate = req.body.settleDate
+    const friendsList = req.body.friendsList;
+    const recData = req.body.recData;
 
-    res.send({
-      message: "success",
+    recsService.submitRec(db, { friendsList, recData}, result => {
+      res.send(result);
     })
 
   })
