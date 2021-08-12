@@ -40,7 +40,31 @@ function insertRec(db, {recData}, callback) {
   )
 }
 
+function receivedRecs(db, {username}, callback) {
+  db.query(
+      "SELECT * FROM recs WHERE sentTo = ?",
+      [username],
+      (err, result) => {
+        if (err) throw err;
+        callback(result);
+      }
+  )
+}
+
+function sentRecs(db, {username}, callback) {
+  db.query(
+      "SELECT * FROM recs WHERE sentFrom = ?",
+      [username],
+      (err, result) => {
+        if (err) throw err;
+        callback(result);
+      }
+  )
+}
+
 module.exports = {
   getRecColumns,
   insertRec,
+  receivedRecs,
+  sentRecs,
 }

@@ -101,11 +101,8 @@ module.exports = async function ({ app, db }) {
   app.post("/home", (req, res) => {
     const username = req.body.username;
 
-    res.send({
-      recsFeed: [
-        { title: "Title 1", from: "Nate", year: "2020", runtime: null, comments: "Great Movie"},
-        { title: "Title 2", from: "Rishi", year: null, runtime: "120", comments: "Terrible Movie"},
-      ]
+    recsService.displayHomeRec(db, {username}, (result) => {
+      res.send(result)
     })
   })
 
@@ -124,11 +121,9 @@ module.exports = async function ({ app, db }) {
   app.post("/myRecs", (req, res) => {
     const username = req.body.username;
 
-    res.send({
-      myRecs: [
-        { title: "Title 1", to: "Nate", year: "2020", runtime: null, comments: "Great Movie"},
-        { title: "Title 2", to: "Rishi", year: null, runtime: "120", comments: "Terrible Movie"},
-      ]
+    recsService.displaySentRec(db, {username}, result => {
+      res.send(result)
     })
+
   })
 }

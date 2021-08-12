@@ -20,9 +20,6 @@ function getFriendsPage(db, {username}, callback) {
         const pendingSentToObj = pendingFriends.map(friend => {
           return allUsersObj.find(user => user.username === friend.sentFrom)
         })
-        console.log(myFriendsObj)
-        console.log(pendingSentToObj)
-        console.log(allUsersObj)
         callback({
           myFriends: myFriendsObj,
           pendingFriends: pendingSentToObj,

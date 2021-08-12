@@ -20,6 +20,43 @@ function submitRec(db, { friendsList, recData }, callback) {
   })
 }
 
+function displayHomeRec(db, {username}, callback) {
+  recsModel.receivedRecs(db, {username}, (receivedResp) => {
+    displayHelper(receivedResp, result => {
+      callback({
+        recsFeed: result
+      })
+    })
+  })
+}
+
+function displaySentRec(db, {username}, callback) {
+  recsModel.sentRecs(db, {username}, (sentResp) => {
+    displayHelper(sentResp, result => {
+      callback({
+        myRecs: result
+      })
+    })
+  })
+}
+
+function displayHelper(recsList, callback) {
+  const recData = recsList.map(rec => {
+    const newRec = {}
+    for (const key in rec) {
+      if (rec.hasOwnProperty(key)) {
+        if (rec[key] !== null) {
+          newRec[key] = rec[key]
+        }
+      }
+    }
+    return newRec
+  })
+  callback(recData)
+}
+
 module.exports = {
   submitRec,
+  displayHomeRec,
+  displaySentRec,
 }
