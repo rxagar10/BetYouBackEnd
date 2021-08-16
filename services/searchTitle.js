@@ -1,40 +1,64 @@
 const tmdbApi = require("../api/tmdbApi");
+const deezerApi = require("../api/deezerApi")
 
-function searchTitle({ title, recType }, callback) {
+function searchTitle({ title, recType, musicType }, callback) {
   const newTitle = title.split(' ').join('+');
   const imageUrlPath = "https://image.tmdb.org/t/p/original/";
 
-  if (recType === "Movie") {
+  switch(recType) {
+    case "Movie":
+      const movies = [];
 
-    const movies = [];
-
-    tmdbApi.getMoviesSearched({ title: newTitle }, (moviesResp) => {
-      moviesResp.map(movie => {
-        movies.push({
-          title: movie.original_title,
-          year: movie.release_date.substring(0, 4),
-          imagePath: imageUrlPath + movie.poster_path,
-          id: movie.id,
+      tmdbApi.getMoviesSearched({ title: newTitle }, (moviesResp) => {
+        moviesResp.map(movie => {
+          movies.push({
+            title: movie.original_title,
+            year: movie.release_date.substring(0, 4),
+            imagePath: imageUrlPath + movie.poster_path,
+            id: movie.id,
+          })
         })
-      })
 
-      callback(movies)
-    })
-  } if (recType === "TVShow") {
-    const shows = [];
-    tmdbApi.getTvShowsSearched({ title: newTitle }, (tvResp) => {
-      tvResp.map(show => {
-        shows.push({
-          title: show.name,
-          year: show.first_air_date.substring(0, 4),
-          imagePath: imageUrlPath + show.backdrop_path,
-          id: show.id,
+        callback(movies)
+      })
+      break;
+    case "TVShow":
+      const shows = [];
+      tmdbApi.getTvShowsSearched({ title: newTitle }, (tvResp) => {
+        tvResp.map(show => {
+          shows.push({
+            title: show.name,
+            year: show.first_air_date.substring(0, 4),
+            imagePath: imageUrlPath + show.backdrop_path,
+            id: show.id,
+          })
         })
-      })
 
-      callback(shows)
-    })
+        callback(shows)
+      })
+      break;
+    case "Music":
+      const music = [];
+
+      deezerApi.getMusicSearched({title: newTitle, musicType}, (musicResp) => {
+        musicResp.data.map(item => {
+          if(musicType === "artist") {
+            music.push({
+              title: item.name,
+              id: item.id,
+            })
+          } else {
+            music.push({
+              title: item.title,
+              id: item.id,
+            })
+          }
+        })
+        callback(music)
+      })
+      break;
   }
+
 }
 
 module.exports = searchTitle;

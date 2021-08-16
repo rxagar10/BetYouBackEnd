@@ -92,8 +92,9 @@ module.exports = async function ({ app, db }) {
   app.post("/searchTitle", (req, res) => {
     const title = req.body.title;
     const recType = req.body.recType;
+    const musicType = req.body.musicType;
 
-    searchTitle({ title: title, recType: recType }, (movieResp) => {
+    searchTitle({ title: title, recType: recType, musicType }, (movieResp) => {
       res.send({ titlesList: movieResp});
     })
   })
@@ -109,8 +110,9 @@ module.exports = async function ({ app, db }) {
   app.post("/getFromId", (req, res) => {
     const id = req.body.id;
     const recType = req.body.recType;
+    const musicType = req.body.musicType;
 
-    getRecInfo({ id: id, recType: recType}, (infoResp) => {
+    getRecInfo({ id: id, recType: recType, musicType}, (infoResp) => {
       res.send({
         titleInfo: infoResp,
       })
