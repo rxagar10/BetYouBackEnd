@@ -1,5 +1,6 @@
 const tmdbApi = require("../api/tmdbApi");
-const deezerApi = require("../api/deezerApi")
+const deezerApi = require("../api/deezerApi");
+const booksApi = require("../api/booksApi");
 
 function getRecInfo({ id, recType, musicType}, callback) {
 
@@ -53,6 +54,11 @@ function getRecInfo({ id, recType, musicType}, callback) {
             break;
         }
         callback(musicInfo)
+      })
+      break;
+    case "Books":
+      booksApi.getBooksInfo({ id }, infoResp => {
+        callback(infoResp);
       })
       break;
 

@@ -1,5 +1,6 @@
 const tmdbApi = require("../api/tmdbApi");
 const deezerApi = require("../api/deezerApi")
+const booksApi = require("../api/booksApi");
 
 function searchTitle({ title, recType, musicType }, callback) {
   const newTitle = title.split(' ').join('+');
@@ -55,6 +56,22 @@ function searchTitle({ title, recType, musicType }, callback) {
           }
         })
         callback(music)
+      })
+      break;
+    case "Books":
+      const books = [];
+
+      booksApi.getBookSearched({ title: newTitle }, booksResp => {
+
+        booksResp.map(book => {
+          books.push({
+            title: book.volumeInfo.title,
+            author: book.volumeInfo.authors[0],
+            overview: book.volumeInfo.description,
+            id: book.id,
+          })
+        })
+        callback(books);
       })
       break;
   }
