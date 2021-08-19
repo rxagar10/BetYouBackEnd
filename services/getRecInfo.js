@@ -1,6 +1,7 @@
 const tmdbApi = require("../api/tmdbApi");
 const deezerApi = require("../api/deezerApi");
 const booksApi = require("../api/booksApi");
+const gamesApi = require("../api/ganesApi");
 
 function getRecInfo({ id, recType, musicType}, callback) {
 
@@ -61,7 +62,39 @@ function getRecInfo({ id, recType, musicType}, callback) {
         callback(infoResp);
       })
       break;
+    case "Game":
+      gamesApi.getAccessKey(accessKey => {
+        const accessToken = accessKey.access_token;
 
+        gamesApi.getGamesInfo({ id, accessToken }, infoResp => {
+
+          gamesApi.getGamesData({ type: "covers", id: infoResp[0].cover, accessToken}, imageResult => {
+            const image = imageResult[0].url;
+            gamesApi.getGamesData({ type: "genres", id: infoResp[0].genres[0], accessToken}, genreResult => {
+              const genre = genreResult[0].name;
+
+              const game = {
+                image, // is id
+                year: new Date(infoResp[0].first_release_date * 1000).getFullYear(),
+                genre, //is id
+                overview: infoResp[0].summary,
+                share: infoResp[0].url,
+              }
+
+              console.log(game)
+              callback(game)
+            })
+
+            })
+          })
+
+
+
+
+
+      })
+
+      break;
   }
 }
 

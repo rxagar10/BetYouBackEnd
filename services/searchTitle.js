@@ -1,6 +1,7 @@
 const tmdbApi = require("../api/tmdbApi");
 const deezerApi = require("../api/deezerApi")
 const booksApi = require("../api/booksApi");
+const gamesApi = require("../api/ganesApi");
 
 function searchTitle({ title, recType, musicType }, callback) {
   const newTitle = title.split(' ').join('+');
@@ -74,6 +75,16 @@ function searchTitle({ title, recType, musicType }, callback) {
         callback(books);
       })
       break;
+    case "Game":
+      gamesApi.getAccessKey(accessKey => {
+        const accessToken = accessKey.access_token;
+
+        gamesApi.getGamesSearched({ title, accessToken}, gamesResp => {
+          callback(gamesResp.map(game => {
+            return { title: game.name, id: game.id}
+          }))
+        })
+      })
   }
 
 }
