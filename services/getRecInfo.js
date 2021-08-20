@@ -1,7 +1,8 @@
 const tmdbApi = require("../api/tmdbApi");
 const deezerApi = require("../api/deezerApi");
 const booksApi = require("../api/booksApi");
-const gamesApi = require("../api/ganesApi");
+const gamesApi = require("../api/gamesApi");
+const docuMenuApi = require("../api/docuMenuApi")
 
 function getRecInfo({ id, recType, musicType}, callback) {
 
@@ -69,7 +70,7 @@ function getRecInfo({ id, recType, musicType}, callback) {
         gamesApi.getGamesInfo({ id, accessToken }, infoResp => {
 
           gamesApi.getGamesData({ type: "covers", id: infoResp[0].cover, accessToken}, imageResult => {
-            const image = imageResult[0].url;
+            const image = "https:" + imageResult[0].url;
             gamesApi.getGamesData({ type: "genres", id: infoResp[0].genres[0], accessToken}, genreResult => {
               const genre = genreResult[0].name;
 
@@ -81,7 +82,6 @@ function getRecInfo({ id, recType, musicType}, callback) {
                 share: infoResp[0].url,
               }
 
-              console.log(game)
               callback(game)
             })
 
@@ -93,7 +93,17 @@ function getRecInfo({ id, recType, musicType}, callback) {
 
 
       })
-
+      break;
+    case "Restaurant":
+      docuMenuApi.getRestaurantInfo({id}, infoResp => {
+        console.log(infoResp)
+        callback({
+          share: infoResp.result.restaurant_website,
+          priceRange: infoResp.result.price_range,
+          genre: infoResp.result.cuisines[0],
+          overview: infoResp.result.address.formatted
+        })
+      })
       break;
   }
 }

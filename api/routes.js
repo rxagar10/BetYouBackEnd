@@ -93,8 +93,9 @@ module.exports = async function ({ app, db }) {
     const title = req.body.title;
     const recType = req.body.recType;
     const musicType = req.body.musicType;
+    const state = req.body.state;
 
-    searchTitle({ title: title, recType: recType, musicType }, (movieResp) => {
+    searchTitle({ title: title, recType: recType, musicType, state }, (movieResp) => {
       res.send({ titlesList: movieResp});
     })
   })

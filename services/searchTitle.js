@@ -1,9 +1,10 @@
 const tmdbApi = require("../api/tmdbApi");
 const deezerApi = require("../api/deezerApi")
 const booksApi = require("../api/booksApi");
-const gamesApi = require("../api/ganesApi");
+const gamesApi = require("../api/gamesApi");
+const docuMenuApi = require("../api/docuMenuApi")
 
-function searchTitle({ title, recType, musicType }, callback) {
+function searchTitle({ title, recType, musicType, state }, callback) {
   const newTitle = title.split(' ').join('+');
   const imageUrlPath = "https://image.tmdb.org/t/p/original/";
 
@@ -84,6 +85,17 @@ function searchTitle({ title, recType, musicType }, callback) {
             return { title: game.name, id: game.id}
           }))
         })
+      })
+      break;
+    case "Restaurant":
+      docuMenuApi.getRestaurantSearch({title, state}, restResp => {
+        callback(restResp.map(rest => {
+          return {
+            title: rest.restaurant_name,
+            year: rest.address.city + ", " + rest.address.state,
+            id: rest.restaurant_id
+          }
+        } ))
       })
   }
 

@@ -2,7 +2,7 @@ const axios = require("axios");
 const config = require("../config");
 
 function getAccessKey(callback) {
-  axios.post("https://id.twitch.tv/oauth2/token?client_id=" + config.gamesClientId + "&client_secret=" + config.ganesSecretId + "&grant_type=client_credentials")
+  axios.post("https://id.twitch.tv/oauth2/token?client_id=" + config.gamesClientId + "&client_secret=" + config.gamesSecretId + "&grant_type=client_credentials")
   .then(resp => {
     callback(resp.data);
   })
