@@ -5,6 +5,9 @@ function submitRec(db, { friendsList, recData }, callback) {
 
     const finalRecData = columnsRec.map(col => {
       if (recData.hasOwnProperty(col.Field)) {
+        if (recData[col.Field] === "") {
+          return { [col.Field]: null}
+        }
         return { [col.Field]: recData[col.Field] }
       } else {
         return { [col.Field]: null}
@@ -12,11 +15,12 @@ function submitRec(db, { friendsList, recData }, callback) {
     })
 
     friendsList.forEach(friend => {
-      finalRecData[1] = { sentTo: friend[0].username };
+      finalRecData[1] = { sentTo: friend.username };
       recsModel.insertRec(db, { recData: finalRecData }, insertedResp => {
-        callback({ message: "success" })
+
       })
     })
+    callback({ message: "success" })
   })
 }
 

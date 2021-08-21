@@ -14,16 +14,26 @@ function getFriendsPage(db, {username}, callback) {
             lastName: user.last_name,
           }
         })
+
         const myFriendsObj = myFriends.map(friend => {
           return allUsersObj.find(user => user.username === friend.username)
         })
+
         const pendingSentToObj = pendingFriends.map(friend => {
           return allUsersObj.find(user => user.username === friend.sentFrom)
         })
+
+        const allUsersFiltered = allUsersObj.filter(user =>
+            user.username !== username &&
+            !myFriendsObj.includes(user) &&
+            !pendingSentToObj.includes(user)
+        )
+
+
         callback({
           myFriends: myFriendsObj,
           pendingFriends: pendingSentToObj,
-          allUsers: allUsersObj,
+          allUsers: allUsersFiltered,
         })
       })
     })

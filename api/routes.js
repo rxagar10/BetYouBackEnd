@@ -56,6 +56,7 @@ module.exports = async function ({ app, db }) {
     const friendsList = req.body.friendsList;
     const recData = req.body.recData;
 
+
     recsService.submitRec(db, { friendsList, recData}, result => {
       res.send(result);
     })
