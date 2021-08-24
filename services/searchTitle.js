@@ -60,7 +60,7 @@ function searchTitle({ title, recType, musicType, state }, callback) {
         callback(music)
       })
       break;
-    case "Books":
+    case "Book":
       const books = [];
 
       booksApi.getBookSearched({ title: newTitle }, booksResp => {
@@ -68,7 +68,7 @@ function searchTitle({ title, recType, musicType, state }, callback) {
         booksResp.map(book => {
           books.push({
             title: book.volumeInfo.title,
-            author: book.volumeInfo.authors[0],
+            year: book.volumeInfo.authors[0],
             overview: book.volumeInfo.description,
             id: book.id,
           })
@@ -76,7 +76,7 @@ function searchTitle({ title, recType, musicType, state }, callback) {
         callback(books);
       })
       break;
-    case "Game":
+    case "Games":
       gamesApi.getAccessKey(accessKey => {
         const accessToken = accessKey.access_token;
 

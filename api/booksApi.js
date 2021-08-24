@@ -20,7 +20,7 @@ function getBooksInfo({ id }, callback) {
       artist: resp.data.volumeInfo.authors[0],
       year: resp.data.volumeInfo.publishedDate.substring(0, 4),
       pageCount: resp.data.volumeInfo.pageCount,
-      genre: resp.data.volumeInfo.categories[0],
+      genres: resp.data.volumeInfo.categories[0],
       image: resp.data.volumeInfo.imageLinks.thumbnail,
     })
   })

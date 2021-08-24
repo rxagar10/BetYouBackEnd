@@ -58,12 +58,12 @@ function getRecInfo({ id, recType, musicType}, callback) {
         callback(musicInfo)
       })
       break;
-    case "Books":
+    case "Book":
       booksApi.getBooksInfo({ id }, infoResp => {
         callback(infoResp);
       })
       break;
-    case "Game":
+    case "Games":
       gamesApi.getAccessKey(accessKey => {
         const accessToken = accessKey.access_token;
 
